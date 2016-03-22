@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="votingApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Voting Polling App</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,300,400italic">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  </head>
+  <body ng-controller="PollController">
+    <div class="navbar navbar-default">
+      <a class="navbar-brand">Voting Polling App</a>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+      </ul>
+    </div>
+    <div class="container">
+      <h1>Welcome to the voting app!</h1>
+      
+      <div ng-view></div>
+      
+      <div class="col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"></h3>
+            <div class="panel-body">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      {{ test }}
+      <div class="col-sm-6">
+        <form ng-submit="">
+          <div class="form-group">  
+            <label>Question:</label>
+            <input type="text" name="question" class="form-control" require ng-model="item.title">
+          </div>
+          <div class="form-group" ng-repeat="item in items">  
+            <label>Option {{ $index + 1 }}:</label>
+            <input type="text" name="question" class="form-control" require ng-model="item.option">
+          </div>
+          <button type="submit" class="btn btn-success btn-lg">Submit</button>
+          <button type="button" class="btn btn-info btn-lg" ng-click="addField()">Add Field</button>
+        </form>                
+      </div>
+      
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-resource.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+  </body>
+</html>
