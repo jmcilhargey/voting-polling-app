@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="votingApp">
+  
   <head>
     <meta charset="utf-8">
     <title>Voting Polling App</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,300,400italic">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   </head>
+  
   <body ng-controller="PollController">
     <div class="navbar navbar-default">
       <a class="navbar-brand">Voting Polling App</a>
@@ -16,37 +18,38 @@
     <div class="container">
       <h1>Welcome to the voting app!</h1>
       
-      <div ng-view></div>
-      
       <div class="col-sm-6">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"></h3>
+            {{ polls }}
+            <h3 class="panel-title">{{ polls.title }}</h3>
             <div class="panel-body">
-              
+              <p ng-repeat="poll in polls.option">{{ poll.text }}</p>
+              <p ng-repeat="vote in polls.vote">{{ vote }}</p>
+              <p>{{ polls.date | date }}</p>
             </div>
           </div>
         </div>
       </div>
-      {{ test }}
+      
       <div class="col-sm-6">
-        <form ng-submit="">
-          <div class="form-group">  
+        <form ng-submit="newPoll()">
+          <div class="form-group">
             <label>Question:</label>
-            <input type="text" name="question" class="form-control" require ng-model="item.title">
+            <input type="text" name="question" class="form-control" ng-model="title" require>
           </div>
-          <div class="form-group" ng-repeat="item in items">  
+          <fieldset class="form-group" ng-repeat="option in options">  
             <label>Option {{ $index + 1 }}:</label>
-            <input type="text" name="question" class="form-control" require ng-model="item.option">
-          </div>
+            <input type="text" name="question" class="form-control" ng-model="option.text" require>
+          </fieldset>
           <button type="submit" class="btn btn-success btn-lg">Submit</button>
-          <button type="button" class="btn btn-info btn-lg" ng-click="addField()">Add Field</button>
+          <button type="button" class="btn btn-info btn-lg" ng-click="addField()">Add Option</button>
         </form>                
       </div>
       
-    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-resource.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
+    
   </body>
 </html>
