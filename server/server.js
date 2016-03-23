@@ -25,8 +25,7 @@ app.route("/api/new")
         console.log(req.body);
         var newPoll = new Polls({
            title: req.body.title,
-           option: req.body.option,
-           votes: req.body.votes,
+           options: req.body.options,
            date: new Date
         });
         
@@ -34,12 +33,18 @@ app.route("/api/new")
             if (err) { throw err; }
             console.log(product);
         });
-    })
+    });
 
 app.route("/api/vote")
     .put(function(req,res) {
-        Polls.findOneAndUpdate();
-    })
+        console.log(req.body.poll);
+        console.log(req.body.vote);
+        Polls.update({ _id : req.body.poll, "options.id": req.body.vote }, { $inc : { "options.$.votes" : 1 } }, function(err, results) {
+            if (err) { throw err; }
+            console.log(results);
+        });
+    });
+    
 app.listen(process.env.PORT, function() {
   console.log("Listening on port " + process.env.PORT);
 });

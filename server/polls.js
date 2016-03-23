@@ -5,9 +5,8 @@ var Schema = mongoose.Schema;
 
 var Poll = new Schema({
    title: String,
-   option: Schema.Types.Mixed,
-   votes: [Number],
+   options: Schema.Types.Mixed,
    date: Date
-});
+}, { versionKey: false });
 
 module.exports = mongoose.model("Poll", Poll);

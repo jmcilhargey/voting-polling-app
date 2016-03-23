@@ -11,17 +11,19 @@
                     url: "api/polls"
                 }).then(function(response) {
                     console.log(response.status);
-                    $scope.polls = response.data[0];
+                    $scope.polls = response.data;
                 }, function(response) {
                     console.log(response.status);
                 });
             };
-            
             $scope.getPolls();
-            $scope.options = [{ text: "" }, { text: "" }];
+            
+            $scope.options = [{ text: "", votes: 0, id: 1 }, { text: "", votes: 0, id: 2 }];
             $scope.addField = function() {
-                $scope.options.push({ });
-            };
+                if ($scope.options.length < 8) {
+                    $scope.options.push({ text: "", votes: 0, id: $scope.options.length + 1 });
+                }
+            };  
             
             $scope.newPoll = function() {
                 $http({
@@ -29,24 +31,32 @@
                     url: "api/new",
                     data: {
                         title: $scope.title,
-                        option: $scope.options,
-                        votes: new Array($scope.options.length).fill("0")
+                        options: $scope.options,
+                        date: new Date()
                     }
                 }).then(function(response) {
                     console.log(response.status);
-                    $scope.data = response.data;
+                    console.log(response.data);
+                    $scope.getPolls();
                 }, function(response) {
                     console.log(response.status);
                 });
             };
             
-            $scope.pollVote = function() {
+            $scope.pollVote = function(poll, vote) {
+                console.log(poll);
+                console.log(vote);
                 $http({
                     method: "PUT",
-                    url: "api/vote"
+                    url: "api/vote",
+                    data: {
+                        poll: poll,
+                        vote: vote
+                    }
                 }).then(function(response) {
                     console.log(response.status);
-                    $scope.data = response.data;
+                    console.log(response.data);
+                    $scope.getPolls();
                 }, function(response) {
                     console.log(response.status);
                 });

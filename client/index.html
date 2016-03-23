@@ -6,6 +6,7 @@
     <title>Voting Polling App</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,300,400italic">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
   </head>
   
   <body ng-controller="PollController">
@@ -17,21 +18,19 @@
     </div>
     <div class="container">
       <h1>Welcome to the voting app!</h1>
-      
       <div class="col-sm-6">
-        <div class="panel panel-default">
+        <div class="panel panel-default" ng-repeat="poll in polls">
           <div class="panel-heading">
-            {{ polls }}
-            <h3 class="panel-title">{{ polls.title }}</h3>
-            <div class="panel-body">
-              <p ng-repeat="poll in polls.option">{{ poll.text }}</p>
-              <p ng-repeat="vote in polls.vote">{{ vote }}</p>
-              <p>{{ polls.date | date }}</p>
-            </div>
+            <h3 class="panel-title">{{ poll.title }}</h3>
+          </div>
+          <div class="panel-body">
+            <ul class="list-group">
+              <li class="list-group-item" ng-repeat="option in poll.options">{{ option.text }}<span class="badge" ng-click="pollVote(poll._id, option.id)">{{ option.votes }}</span></li>
+            </ul>
+            <p>{{ poll.date | date }}</p>
           </div>
         </div>
       </div>
-      
       <div class="col-sm-6">
         <form ng-submit="newPoll()">
           <div class="form-group">
