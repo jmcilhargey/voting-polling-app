@@ -31,8 +31,9 @@ app.route("/api/new")
         
         newPoll.save(function(err, product) {
             if (err) { throw err; }
-            console.log(product);
+            res.json(product);
         });
+        
     });
 
 app.route("/api/vote")
@@ -41,7 +42,7 @@ app.route("/api/vote")
         console.log(req.body.vote);
         Polls.update({ _id : req.body.poll, "options.id": req.body.vote }, { $inc : { "options.$.votes" : 1 } }, function(err, results) {
             if (err) { throw err; }
-            console.log(results);
+            res.json(results);
         });
     });
     

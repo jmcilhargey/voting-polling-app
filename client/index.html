@@ -4,6 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title>Voting Polling App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">      
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,300,400italic">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="main.css">
@@ -11,13 +12,22 @@
   
   <body ng-controller="PollController">
     <div class="navbar navbar-default">
-      <a class="navbar-brand">Voting Polling App</a>
+      <a class="navbar-brand"><i class="fa fa-thumbs-o-up fa-lg fa-fw"></i>Voting App</a>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
+        <button type="button" class="btn btn-default navbar-btn"><i class="fa fa-github fa-lg fa-fw"></i>Sign in</button>
       </ul>
     </div>
     <div class="container">
-      <h1>Welcome to the voting app!</h1>
+      <h1>Welcome to the Voting App!</h1>
+      <blockquote>
+        <ul>
+          <li>Enter a question and options to vote on</li>
+          <li>Use the Add Option button to add more options</li>
+          <li>Hit Submit to post the question to the server</li>
+          <li>Sign in with Github to vote on each poll</li>
+        </ul>        
+      </blockquote>
+
       <div class="col-sm-6">
         <div class="panel panel-default" ng-repeat="poll in polls">
           <div class="panel-heading">
@@ -27,7 +37,7 @@
             <ul class="list-group">
               <li class="list-group-item" ng-repeat="option in poll.options">{{ option.text }}<span class="badge" ng-click="pollVote(poll._id, option.id)">{{ option.votes }}</span></li>
             </ul>
-            <p>{{ poll.date | date }}</p>
+            <p>{{ poll.date | date : "MMM dd', ' yyyy 'at' hha" }}</p>
           </div>
         </div>
       </div>
@@ -41,8 +51,8 @@
             <label>Option {{ $index + 1 }}:</label>
             <input type="text" name="question" class="form-control" ng-model="option.text" require>
           </fieldset>
-          <button type="submit" class="btn btn-success btn-lg">Submit</button>
-          <button type="button" class="btn btn-info btn-lg" ng-click="addField()">Add Option</button>
+          <button type="submit" class="btn btn-lg">Submit</button>
+          <button type="button" class="btn btn-lg" ng-click="addField()">Add Option</button>
         </form>                
       </div>
       

@@ -2,6 +2,73 @@ body {
   font-family: 'Lato', sans-serif;
 }
 
+.container {
+  width: 90%;
+}
+
+h1 {
+  text-align: center;
+}
+
+.navbar {
+  padding: 1em;
+}
+
+.navbar-brand {
+  padding-top: 20px;
+}
+
+.navbar,
+.panel-heading {
+  background-color: #515151 !important;
+}
+
+.navbar a,
+.navbar li,
+.navbar-btn {
+  color: #fff !important;
+}
+
+.navbar-btn {
+  margin-right: 5em;
+  background-color: transparent;
+  border: 2px solid #fff;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 6px;
+}
+
+.navbar-btn:hover {
+  background-color: #fff;
+  color: #515151 !important;
+  border: 2px solid #fff;
+}
+
+.btn-lg {
+  padding: 10px 20px;
+  margin-right: 0.5em;
+  background-color: #009900;
+  color: #fff;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.panel-title {
+  color: #fff;
+  padding: 0.5em 1em;
+  font-size: 1.25em;
+}
+
+.panel-body {
+  background-color: #f2f2f2;
+}
+
+.badge {
+  background-color: #009900;
+}
+
 .badge:hover {
     cursor: pointer;
 }

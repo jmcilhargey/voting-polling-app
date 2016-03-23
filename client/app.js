@@ -36,7 +36,6 @@
                     }
                 }).then(function(response) {
                     console.log(response.status);
-                    console.log(response.data);
                     $scope.getPolls();
                 }, function(response) {
                     console.log(response.status);
@@ -44,8 +43,6 @@
             };
             
             $scope.pollVote = function(poll, vote) {
-                console.log(poll);
-                console.log(vote);
                 $http({
                     method: "PUT",
                     url: "api/vote",
@@ -55,7 +52,6 @@
                     }
                 }).then(function(response) {
                     console.log(response.status);
-                    console.log(response.data);
                     $scope.getPolls();
                 }, function(response) {
                     console.log(response.status);
