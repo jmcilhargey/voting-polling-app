@@ -37,7 +37,7 @@
             <ul class="list-group">
               <li class="list-group-item" ng-repeat="option in poll.options">{{ option.text }}<span class="badge" ng-click="pollVote(poll._id, option.id)">{{ option.votes }}</span></li>
             </ul>
-            <p>{{ poll.date | date : "MMM dd', ' yyyy 'at' hha" }}</p>
+            <p>{{ poll.date | date : "MMM dd', ' yyyy 'at' ha" }}</p>
           </div>
         </div>
       </div>
@@ -55,6 +55,7 @@
           <button type="button" class="btn btn-lg" ng-click="addField()">Add Option</button>
         </form>                
       </div>
+    
       
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-resource.min.js"></script>

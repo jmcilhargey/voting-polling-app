@@ -10,7 +10,7 @@ var app = express();
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "/../client"));
 
-mongoose.connect("mongodb://localhost:27017/polls");
+mongoose.connect("mongodb://heroku_t4pnbww8:70cemrf2ig6n263v6kafaom7jp@ds037155.mlab.com:37155/heroku_t4pnbww8");
 
 app.route("/api/polls")
     .get(function(req, res) {
