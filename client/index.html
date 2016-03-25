@@ -14,7 +14,7 @@
     <div class="navbar navbar-default">
       <a class="navbar-brand"><i class="fa fa-thumbs-o-up fa-lg fa-fw"></i>Voting App</a>
       <ul class="nav navbar-nav navbar-right">
-        <button type="button" class="btn btn-default navbar-btn"><i class="fa fa-github fa-lg fa-fw"></i>Sign in</button>
+        <button type="button" class="btn btn-default navbar-btn"><i class="fa fa-github fa-lg fa-fw"></i>Sign In</button>
       </ul>
     </div>
     <div class="container">
@@ -38,20 +38,23 @@
               <li class="list-group-item" ng-repeat="option in poll.options">{{ option.text }}<span class="badge" ng-click="pollVote(poll._id, option.id)">{{ option.votes }}</span></li>
             </ul>
             <p>{{ poll.date | date : "MMM dd', ' yyyy 'at' ha" }}</p>
+            <button type="button" class="btn btn-primary" ng-click=""><i class="fa fa-tasks fa-fw"></i>See Graph</button>
           </div>
         </div>
       </div>
       <div class="col-sm-6">
-        <form ng-submit="newPoll()">
-          <div class="form-group">
+        <form name="userForm" ng-submit="newPoll()" novalidate>
+          <div class="form-group" ng-class="{ 'has-error' : userForm.question.$invalid && userForm.question.$touched }">
             <label>Question:</label>
-            <input type="text" name="question" class="form-control" ng-model="title" require>
+            <input type="text" name="question" class="form-control" maxlength="100" ng-model="title" required>
+            <p ng-show="userForm.question.$invalid && userForm.question.$touched" class="help-block">Enter a question</p>
           </div>
-          <fieldset class="form-group" ng-repeat="option in options">  
+          <fieldset class="form-group" ng-repeat="option in options" ng-class="{ 'has-error' : userForm.option{{ $index }}.$invalid && userForm.option{{ $index }}.$touched }"> 
             <label>Option {{ $index + 1 }}:</label>
-            <input type="text" name="question" class="form-control" ng-model="option.text" require>
+            <input type="text" name="option{{ $index }}" class="form-control" maxlength="100" ng-model="option.text" required>
+            <p ng-show="userForm.option{{ $index }}.$invalid && userForm.option{{ $index }}.$touched" class="help-block">Enter an option</p>
           </fieldset>
-          <button type="submit" class="btn btn-lg">Submit</button>
+          <button type="submit" class="btn btn-lg" ng-disabled="userForm.$invalid">Submit</button>
           <button type="button" class="btn btn-lg" ng-click="addField()">Add Option</button>
         </form>                
       </div>

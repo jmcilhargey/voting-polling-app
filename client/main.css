@@ -51,8 +51,14 @@ h1 {
   color: #fff;
 }
 
-.btn:focus {
-  outline: none;
+.btn-lg:hover,
+.btn-lg:focus {
+  color: #fff;
+}
+
+.btn:focus,
+.btn:active {
+  outline: none !important;
 }
 
 .panel-title {
@@ -63,6 +69,27 @@ h1 {
 
 .panel-body {
   background-color: #f2f2f2;
+}
+
+.panel-body p {
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.btn-primary {
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ddd;
+  float: right;
+  padding: 8px 10px;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #fff !important;
+  color: #333 !important;
+  border: 1px solid #009900;
 }
 
 .badge {
