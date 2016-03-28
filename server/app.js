@@ -20,6 +20,14 @@ app.route("/api/polls")
         })
     });
     
+app.route("/api/poll/:id")
+    .get(function(req, res) {
+        Polls.find({ _id : req.params.id }, function(err, result) {
+            if (err) { throw err; }
+            res.json(result);            
+        });
+    });
+    
 app.route("/api/new")    
     .post(function(req, res) {
         console.log(req.body);

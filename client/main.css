@@ -19,7 +19,8 @@ h1 {
 }
 
 .navbar,
-.panel-heading {
+.panel-heading,
+.panel-footer {
   background-color: #515151 !important;
 }
 
@@ -61,7 +62,8 @@ h1 {
   outline: none !important;
 }
 
-.panel-title {
+.panel-title,
+.panel-footer {
   color: #fff;
   padding: 0.5em 1em;
   font-size: 1.25em;
@@ -76,20 +78,19 @@ h1 {
   margin-top: 5px;
 }
 
-.btn-primary {
+.graph-btn {
   background-color: #fff;
   color: #333;
   border: 1px solid #ddd;
+  border-radius: 3px;
   float: right;
   padding: 8px 10px;
 }
 
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active {
-  background-color: #fff !important;
-  color: #333 !important;
-  border: 1px solid #009900;
+.graph-btn:hover {
+  text-decoration: none;
+  color: #333;
+  border-color: #009900;
 }
 
 .badge {
@@ -98,4 +99,25 @@ h1 {
 
 .badge:hover {
     cursor: pointer;
+}
+
+.container-fluid {
+  width: 70%;
+}
+
+#graph-panel {
+  background-color: #fff;
+}
+
+svg rect {
+  fill: #f2f2f2;
+  stroke: #009900;
+  stroke-width: 1;
+}
+
+svg text {
+  font-family: sans-serif;
+  font-size: 14px;
+  fill: #333;
+  text-anchor: middle;  
 }

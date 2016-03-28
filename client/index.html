@@ -12,56 +12,18 @@
   
   <body ng-controller="PollController">
     <div class="navbar navbar-default">
-      <a class="navbar-brand"><i class="fa fa-thumbs-o-up fa-lg fa-fw"></i>Voting App</a>
+      <a class="navbar-brand" href="#/home"><i class="fa fa-thumbs-o-up fa-lg fa-fw"></i>Voting App</a>
       <ul class="nav navbar-nav navbar-right">
         <button type="button" class="btn btn-default navbar-btn"><i class="fa fa-github fa-lg fa-fw"></i>Sign In</button>
       </ul>
     </div>
-    <div class="container">
-      <h1>Welcome to the Voting App!</h1>
-      <blockquote>
-        <ul>
-          <li>Enter a question and options to vote on</li>
-          <li>Use the Add Option button to add more options</li>
-          <li>Hit Submit to post the question to the server</li>
-          <li>Sign in with Github to vote on each poll</li>
-        </ul>        
-      </blockquote>
 
-      <div class="col-sm-6">
-        <div class="panel panel-default" ng-repeat="poll in polls">
-          <div class="panel-heading">
-            <h3 class="panel-title">{{ poll.title }}</h3>
-          </div>
-          <div class="panel-body">
-            <ul class="list-group">
-              <li class="list-group-item" ng-repeat="option in poll.options">{{ option.text }}<span class="badge" ng-click="pollVote(poll._id, option.id)">{{ option.votes }}</span></li>
-            </ul>
-            <p>{{ poll.date | date : "MMM dd', ' yyyy 'at' ha" }}</p>
-            <button type="button" class="btn btn-primary" ng-click=""><i class="fa fa-tasks fa-fw"></i>See Graph</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <form name="userForm" ng-submit="newPoll()" novalidate>
-          <div class="form-group" ng-class="{ 'has-error' : userForm.question.$invalid && userForm.question.$touched }">
-            <label>Question:</label>
-            <input type="text" name="question" class="form-control" maxlength="100" ng-model="title" required>
-            <p ng-show="userForm.question.$invalid && userForm.question.$touched" class="help-block">Enter a question</p>
-          </div>
-          <fieldset class="form-group" ng-repeat="option in options" ng-class="{ 'has-error' : userForm.option{{ $index }}.$invalid && userForm.option{{ $index }}.$touched }"> 
-            <label>Option {{ $index + 1 }}:</label>
-            <input type="text" name="option{{ $index }}" class="form-control" maxlength="100" ng-model="option.text" required>
-            <p ng-show="userForm.option{{ $index }}.$invalid && userForm.option{{ $index }}.$touched" class="help-block">Enter an option</p>
-          </fieldset>
-          <button type="submit" class="btn btn-lg" ng-disabled="userForm.$invalid">Submit</button>
-          <button type="button" class="btn btn-lg" ng-click="addField()">Add Option</button>
-        </form>                
-      </div>
+    <div ng-view></div>
     
-      
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-resource.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
     
   </body>
