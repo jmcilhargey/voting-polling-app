@@ -64,62 +64,97 @@
             
             return {
                 restrict: "E",
-                replace: true,
+                scope: {
+                    d3Data: "=data"
+                },
                 link: function(scope, element, attrs) {
                     
-                    var height = 500;
-                    var margin = { top: 30, right: 15, bottom: 30, left: 15 };              
-                    var width = $(".container-fluid").width() - margin.left - margin.right;                    
-                    var padding = 5;
-
-                    var svg = d3.select(".panel-body")
-                        .append("svg")
-                        .attr("width", width)
-                        .attr("height", height);
+                    scope.$watch("d3Data", function(d3Data) {
                         
-                    svg.selectAll("rect")
-                        .data(dataset)
-                        .enter()
-                        .append("rect")
-                        
-                    svg.selectAll("text")
-                            .data(dataset)
-                            .enter()
-                            .append("text")
-                            .text(function(d) {
-                                return d;
-                            })
-                        
-                    function renderGraph() {
-
-                        width = $(".container-fluid").width() - margin.left - margin.right; 
-                        
-                        svg.selectAll("rect")
-                            .attr("x", function(d, i) {
-                                return padding;
-                            })                        
-                            .attr("y", function(d, i) {
-                                return i * (height / dataset.length);
-                            })
-                            .attr("width", function(d) {
-                                return width * (d / d3.max(dataset)) - 2 * padding
-                            })
-                            .attr("height", height / dataset.length - padding);
+                        if (d3Data) {
                             
+                            var height = 500;
+                            var margin = { top: 30, right: 15, bottom: 30, left: 15 };              
+                            var width = $(".container-fluid").width() - margin.left - margin.right;                    
+                            var padding = 5;
+                            var max = d3Data.options[0].votes;
+                            var total = 0;
                             
-                        svg.selectAll("text")
-                            .attr("x", function(d, i) {
-                                return 3 * padding;
-                            })
-                            .attr("y", function(d, i) {
-                                return i * (height / dataset.length) + (height / dataset.length - padding) / 2;
-                            });
-                    }
-                    
-                    $(document).ready(renderGraph);
-                    $(window).on("resize", renderGraph);
+                            for (var i = 0; i < d3Data.options.length; i++) {
+                                if (d3Data.options[i].votes > max) {
+                                    max = d3Data.options[i].votes;
+                                }
+                                total += d3Data.options[i].votes;
+                            }
+        
+                            var svg = d3.select(".panel-body")
+                                .append("svg")
+                                .attr("width", width)
+                                .attr("height", height);
+                                
+                            svg.selectAll("rect")
+                                .data(d3Data.options)
+                                .enter()
+                                .append("rect");
+                                
+                            svg.selectAll("text")
+                                .data(d3Data.options)
+                                .enter()
+                                .append("text")
+                                .text(function(d) {
+                                    return d.text + " -- " + (d.votes / total * 100).toFixed(1) + "%";
+                                });
+                                
+                        /*
+                            var xScale = d3.scale.linear()
+                                .range([0, width])
+                                .domain([0, max]);
+                                    
+                            var xAxis = d3.svg
+                                .axis()
+                                .scale(xScale)
+                                .orient("bottom")
+                                .ticks(5);
+                                
+                            svg.append("g")
+                                .attr("class", "axis")
+                                .attr("transform", "translate(0," + (height - padding) + ")")
+                                .call(xAxis);*/
+  
+                            function renderGraph() {
+                                
+                                width = $(".container-fluid").width() - margin.left - margin.right; 
+                                
+                                svg.selectAll("rect")
+                                    .attr("x", function(d, i) {
+                                        return padding;
+                                    })                        
+                                    .attr("y", function(d, i) {
+                                        return i * (height / d3Data.options.length);
+                                    })
+                                    .attr("width", function(d) {
+                                        return width * (d.votes / max) - 2 * padding;
+                                    })
+                                    .attr("height", height / d3Data.options.length - padding);
+                                    
+                                svg.selectAll("text")
+                                    .attr("x", function(d) {
+                                        console.log(d.text.length);
+                                        return 0.8 * width * (d.votes / max) - d.text.length;
+                                    })
+                                    .attr("y", function(d, i) {
+                                        return i * (height / d3Data.options.length) + (height / d3Data.options.length - d3Data.options.length) / 2 + padding;
+                                    });
+                                    
+                            }
+                            
+                            $(document).ready(renderGraph);
+                            $(window).on("resize", renderGraph);
+                            
+                        }
+                    });
                 }
-           };
+            };
         });
         
         app.controller("GraphController", ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {

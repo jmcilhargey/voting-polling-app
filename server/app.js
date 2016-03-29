@@ -46,8 +46,6 @@ app.route("/api/new")
 
 app.route("/api/vote")
     .put(function(req,res) {
-        console.log(req.body.poll);
-        console.log(req.body.vote);
         Polls.update({ _id : req.body.poll, "options.id": req.body.vote }, { $inc : { "options.$.votes" : 1 } }, function(err, results) {
             if (err) { throw err; }
             res.json(results);
