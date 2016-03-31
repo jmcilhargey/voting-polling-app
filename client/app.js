@@ -58,9 +58,38 @@
                 });
             };
         }]);
-    
+        
+        app.directive("tooltip", function() {
+           return {
+               restrict: "A",
+               link: function(scope, element, attrs) {
+                   $(element).hover(function() {
+                       $(element).tooltip("show");
+                   },
+                   function() {
+                       $(element).tooltip("hide");
+                   })
+               }
+           } 
+        });
+        
+        app.controller("GraphController", ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {
+
+            $scope.getPoll = function() {
+                $http({
+                    method: "GET",
+                    url: "api/poll/" + $routeParams.id
+                }).then(function(response) {
+                    console.log(response.status);
+                    $scope.poll = response.data[0];
+                }, function(response) {
+                    console.log(response.status);
+                });
+            };
+            $scope.getPoll();
+        }]);
+        
         app.directive("d3Graph", function() {
-            var dataset = [ 5, 10, 13, 19, 21, 25 ];
             
             return {
                 restrict: "E",
@@ -104,22 +133,6 @@
                                 .text(function(d) {
                                     return d.text + " -- " + (d.votes / total * 100).toFixed(1) + "%";
                                 });
-                                
-                        /*
-                            var xScale = d3.scale.linear()
-                                .range([0, width])
-                                .domain([0, max]);
-                                    
-                            var xAxis = d3.svg
-                                .axis()
-                                .scale(xScale)
-                                .orient("bottom")
-                                .ticks(5);
-                                
-                            svg.append("g")
-                                .attr("class", "axis")
-                                .attr("transform", "translate(0," + (height - padding) + ")")
-                                .call(xAxis);*/
   
                             function renderGraph() {
                                 
@@ -156,22 +169,6 @@
                 }
             };
         });
-        
-        app.controller("GraphController", ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {
-
-            $scope.getPoll = function() {
-                $http({
-                    method: "GET",
-                    url: "api/poll/" + $routeParams.id
-                }).then(function(response) {
-                    console.log(response.status);
-                    $scope.poll = response.data[0];
-                }, function(response) {
-                    console.log(response.status);
-                });
-            };
-            $scope.getPoll();
-        }]);
         
         app.config(function($routeProvider, $locationProvider) {
             $routeProvider

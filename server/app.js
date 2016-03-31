@@ -3,14 +3,45 @@
 var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
+var passport = require("passport");
+var session = require("express-session");
+var Users = require("./users.js");
 var Polls = require("./polls.js");
 
+require("dotenv").load();
+require("./passport.js")(passport);
 var app = express();
 
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "/../client"));
 
-mongoose.connect("mongodb://heroku_t4pnbww8:70cemrf2ig6n263v6kafaom7jp@ds037155.mlab.com:37155/heroku_t4pnbww8");
+app.use(session({
+    secret: "votingApp",
+    resave: false,
+    saveUnitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+mongoose.connect(process.env.MONGO_URI);
+
+var loggedInAndVote = function (req, res, next) {
+    if (req.isAuthenticated() && req.user.voted.indexOf(req.body.poll) === -1) {
+        return next();
+    } else {
+        res.redirect("/");
+    }
+};
+
+app.route("/auth/github")
+    .get(passport.authenticate("github"));
+    
+app.route("/auth/github/callback")
+    .get(passport.authenticate("github", {
+        successRedirect: "/",
+        failureRedirect: "/login"
+    }));
 
 app.route("/api/polls")
     .get(function(req, res) {
@@ -45,10 +76,15 @@ app.route("/api/new")
     });
 
 app.route("/api/vote")
-    .put(function(req,res) {
+    .put(loggedInAndVote, function(req,res) {
         Polls.update({ _id : req.body.poll, "options.id": req.body.vote }, { $inc : { "options.$.votes" : 1 } }, function(err, results) {
             if (err) { throw err; }
-            res.json(results);
+            
+            Users.findOneAndUpdate({ "github.id": req.user.github.id }, { $push: { "voted": req.body.poll } }, function(err, result) {
+                if (err) { throw err; }
+            
+                res.json(req.user);
+            });
         });
     });
     

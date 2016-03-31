@@ -1,12 +1,12 @@
-
 <div class="container">
   <h1>Welcome to the Voting App!</h1>
   <blockquote>
     <ul>
       <li>Enter a question and options to vote on</li>
       <li>Use the Add Option button to add more options</li>
-      <li>Hit Submit to post the question to the server</li>
+      <li>Hit Submit to post a question to MongoDB</li>
       <li>Sign in with Github to vote on each poll</li>
+      <li>Select See Graph to show a d3 bar chart</li>
     </ul>        
   </blockquote>
 
@@ -17,10 +17,10 @@
       </div>
       <div class="panel-body">
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="option in poll.options">{{ option.text }}<span class="badge" ng-click="pollVote(poll._id, option.id)">{{ option.votes }}</span></li>
+          <li class="list-group-item" ng-repeat="option in poll.options">{{ option.text }}<span class="badge" ng-click="pollVote(poll._id, option.id)" data-toggle="tooltip" title="Sign in to vote" data-placement="left" tooltip>{{ option.votes }}</span></li>
         </ul>
         <p>{{ poll.date | date : "MMM dd', ' yyyy 'at' ha" }}</p>
-        <a class="graph-btn" ng-href="#/graph/{{ poll._id }}"><i class="fa fa-tasks fa-fw"></i>See Graph</a>
+        <a class="graph-btn" ng-href="#/graph/{{ poll._id }}"><i class="fa fa-tasks"></i>&nbsp;See Graph</a>
       </div>
     </div>
   </div>
