@@ -12,10 +12,11 @@ h1 {
 
 .navbar {
   padding: 1em;
+  color: white;
 }
 
 .navbar-brand {
-  padding-top: 20px;
+  color: white !important;
 }
 
 .navbar,
@@ -24,42 +25,45 @@ h1 {
   background-color: #616161 !important;
 }
 
-.navbar a,
-.navbar li,
-.navbar-btn {
-  color: #fff !important;
+.navbar li {
+  font-size: 16px;
+  line-height: 3em;
+  margin-right: 20px;
 }
 
 .navbar-btn {
-  margin-right: 5em;
+  color: white;
   background-color: transparent;
-  border: 2px solid #fff;
+  border: 2px solid white;
+  margin: 0 10px;
   padding: 10px 20px;
   font-size: 18px;
   border-radius: 6px;
+  float: right;
 }
 
-.navbar-btn:hover {
-  background-color: #fff;
+.navbar-btn:hover,
+.navbar-btn:focus {
+  background-color: white;
   color: #515151 !important;
-  border: 2px solid #fff;
+  border: 2px solid white;
 }
 
 .btn:focus,
 .btn:active {
-  outline: none !important;
+  outline: none;
 }
 
 .btn-lg {
   padding: 10px 20px;
   margin-right: 0.5em;
   background-color: #01579B;
-  color: #fff;
+  color: white;
 }
 
 .btn-lg:hover,
 .btn-lg:focus {
-  color: #fff;
+  color: white;
 }
 
 .form-group input:focus {
@@ -68,7 +72,7 @@ h1 {
 
 .panel-title,
 .panel-footer {
-  color: #fff;
+  color: white;
   padding: 0.5em 1em;
   font-size: 1.25em;
 }
@@ -83,7 +87,7 @@ h1 {
 }
 
 .graph-btn {
-  background-color: #fff;
+  background-color: white;
   color: #333;
   border: 1px solid #ddd;
   border-radius: 3px;
@@ -101,10 +105,6 @@ h1 {
   background-color: #01579B;
 }
 
-.badge:hover {
-    cursor: pointer;
-}
-
 .tooltip-arrow {
   display: none;
 }
@@ -117,7 +117,7 @@ h1 {
 }
 
 #graph-panel {
-  background-color: #fff;
+  background-color: white;
 }
 
 svg rect {

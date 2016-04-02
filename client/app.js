@@ -18,6 +18,19 @@
             };
             $scope.getPolls();
             
+            $scope.loggedIn = function() {
+                $http({
+                    method: "GET",
+                    url: "api/user"
+                }).then(function(response) {
+                    console.log(response.status);
+                    $scope.user = response.data;
+                }, function(response) {
+                    console.log(response.status);
+                });
+            };
+            $scope.loggedIn();
+            
             $scope.options = [{ text: "", votes: 0, id: 1 }, { text: "", votes: 0, id: 2 }];
             $scope.addField = function() {
                 if ($scope.options.length < 8) {
@@ -68,9 +81,9 @@
                    },
                    function() {
                        $(element).tooltip("hide");
-                   })
+                   });
                }
-           } 
+           };
         });
         
         app.controller("GraphController", ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {
@@ -158,22 +171,25 @@
                                     .attr("y", function(d, i) {
                                         return i * (height / d3Data.options.length) + (height / d3Data.options.length - d3Data.options.length) / 2 + padding;
                                     });
-                                    
                             }
-                            
                             $(document).ready(renderGraph);
-                            $(window).on("resize", renderGraph);
-                            
+                            $(window).on("resize", renderGraph);s
                         }
                     });
                 }
             };
         });
         
-        app.config(function($routeProvider, $locationProvider) {
+        app.config(["$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
+            
             $routeProvider
-                .when("/home", {
-                    templateUrl: "home.html",
+                .when("/login", {
+                    templateUrl: "login.html",
+                    controller: "PollController"
+                })
+                
+                .when("/vote", {
+                    templateUrl: "vote.html",
                     controller: "PollController"
                 })
                 
@@ -183,8 +199,12 @@
                 })
                 
                 .otherwise({
-                    redirectTo: "/home"
+                    redirectTo: "/login"
                 });
                 
-        });
+            $locationProvider.html5Mode({
+                enabled: true,
+                requireBase: false
+            });
+        }]);
 })();

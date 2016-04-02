@@ -1,0 +1,49 @@
+<div class="navbar navbar-default">
+  <a class="navbar-brand" href="home"><i class="fa fa-thumbs-o-up fa-lg fa-fw"></i>Voting App</a>
+  <a class='btn btn-default navbar-btn' href='/auth/github'><i class='fa fa-github fa-lg'></i>&nbsp;Sign In</a>
+</div>
+
+<div class="container">
+  <h1>Welcome to the Voting App!</h1>
+  <blockquote>
+    <ul>
+      <li>Enter a question and options to vote on</li>
+      <li>Use the Add Option button to add more options</li>
+      <li>Hit Submit to post a question to MongoDB</li>
+      <li>Sign in with Github to vote on each poll</li>
+      <li>Select See Graph to show a d3 bar chart</li>
+    </ul>        
+  </blockquote>
+  
+
+  <div class="col-sm-6">
+    <div class="panel panel-default" ng-repeat="poll in polls">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ poll.title }}</h3>
+      </div>
+      <div class="panel-body">
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="option in poll.options">{{ option.text }}<span class="badge" data-toggle="tooltip" title="Sign in to vote" data-placement="left" tooltip style="opacity:0.5">{{ option.votes }}</span></li>
+        </ul>
+        <p>{{ poll.date | date : "MMM dd', ' yyyy 'at' ha" }}</p>
+        <a class="graph-btn" ng-href="#/graph/{{ poll._id }}"><i class="fa fa-tasks"></i>&nbsp;See Graph</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <form name="userForm" ng-submit="newPoll()" novalidate>
+      <div class="form-group" ng-class="{ 'has-error' : userForm.question.$invalid && userForm.question.$touched }">
+        <label>Question:</label>
+        <input type="text" name="question" class="form-control" maxlength="100" ng-model="title" required>
+        <p ng-show="userForm.question.$invalid && userForm.question.$touched" class="help-block">Enter a question</p>
+      </div>
+      <fieldset class="form-group" ng-repeat="option in options" ng-class="{ 'has-error' : userForm.option{{ $index }}.$invalid && userForm.option{{ $index }}.$touched }"> 
+        <label>Option {{ $index + 1 }}:</label>
+        <input type="text" name="option{{ $index }}" class="form-control" maxlength="100" ng-model="option.text" required>
+        <p ng-show="userForm.option{{ $index }}.$invalid && userForm.option{{ $index }}.$touched" class="help-block">Enter an option</p>
+      </fieldset>
+      <button type="submit" class="btn btn-lg" ng-disabled="userForm.$invalid">Submit</button>
+      <button type="button" class="btn btn-lg" ng-click="addField()">Add Option</button>
+    </form>                
+  </div>
+</div>

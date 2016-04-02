@@ -18,30 +18,24 @@ app.use(express.static(__dirname + "/../client"));
 app.use(session({
     secret: "votingApp",
     resave: false,
-    saveUnitialized: true
+    saveUninitialized: true
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.connect(process.env.MONGO_URI);
 
-var loggedInAndVote = function (req, res, next) {
-    if (req.isAuthenticated() && req.user.voted.indexOf(req.body.poll) === -1) {
+// req.user.voted.indexOf(req.body.poll) === -1
+
+function isLoggedIn (req, res, next) {
+    if (req.isAuthenticated()) {
+        console.log("Not logged in");
         return next();
     } else {
-        res.redirect("/");
+        console.log("Not logged in");
+        res.redirect("/login");
     }
-};
-
-app.route("/auth/github")
-    .get(passport.authenticate("github"));
-    
-app.route("/auth/github/callback")
-    .get(passport.authenticate("github", {
-        successRedirect: "/",
-        failureRedirect: "/login"
-    }));
+}
 
 app.route("/api/polls")
     .get(function(req, res) {
@@ -72,11 +66,10 @@ app.route("/api/new")
             if (err) { throw err; }
             res.json(product);
         });
-        
     });
 
 app.route("/api/vote")
-    .put(loggedInAndVote, function(req,res) {
+    .put(isLoggedIn, function(req,res) {
         Polls.update({ _id : req.body.poll, "options.id": req.body.vote }, { $inc : { "options.$.votes" : 1 } }, function(err, results) {
             if (err) { throw err; }
             
@@ -86,6 +79,26 @@ app.route("/api/vote")
                 res.json(req.user);
             });
         });
+    });
+    
+app.route("/api/user")
+    .get(isLoggedIn, function(req, res) {
+        res.json(req.user.github); 
+    });    
+    
+app.route("/auth/github")
+    .get(passport.authenticate("github"));
+    
+app.route("/auth/github/callback")
+    .get(passport.authenticate("github", {
+        successRedirect: "/vote",
+        failureRedirect: "/login"
+    }));
+    
+app.route("/logout")
+    .get(function(req, res) {
+       req.logout();
+       res.redirect("/login");
     });
     
 app.listen(process.env.PORT, function() {

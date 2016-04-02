@@ -7,7 +7,8 @@ var User = mongoose.Schema({
     github: {
         id: String,
         displayName: String,
-        userName: String
+        username: String,
+        publicRepos: Number
     },
     voted: [String]
 }, { versionKey: false });

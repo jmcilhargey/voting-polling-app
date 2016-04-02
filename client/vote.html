@@ -1,5 +1,10 @@
+<div class="navbar navbar-default">
+  <a class="navbar-brand" href="#/home"><i class="fa fa-thumbs-o-up fa-lg fa-fw"></i>Voting App</a>
+  <a class='btn btn-default navbar-btn' href='/logout'><i class='fa fa-github fa-lg'></i>&nbsp;Sign Out</a><ul class='nav navbar-nav navbar-right'><li>{{ user.username }}</li><li>{{ user.displayName }}</li></ul>
+</div>
+
 <div class="container">
-  <h1>Welcome to the Voting App!</h1>
+  <h1>You're signed in and ready to vote!</h1>
   <blockquote>
     <ul>
       <li>Enter a question and options to vote on</li>
@@ -17,7 +22,7 @@
       </div>
       <div class="panel-body">
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="option in poll.options">{{ option.text }}<span class="badge" ng-click="pollVote(poll._id, option.id)" data-toggle="tooltip" title="Sign in to vote" data-placement="left" tooltip>{{ option.votes }}</span></li>
+          <li class="list-group-item" ng-repeat="option in poll.options">{{ option.text }}<span class="badge" ng-click="pollVote(poll._id, option.id)" style="cursor:pointer">{{ option.votes }}</span></li>
         </ul>
         <p>{{ poll.date | date : "MMM dd', ' yyyy 'at' ha" }}</p>
         <a class="graph-btn" ng-href="#/graph/{{ poll._id }}"><i class="fa fa-tasks"></i>&nbsp;See Graph</a>

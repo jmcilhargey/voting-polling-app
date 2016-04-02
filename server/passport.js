@@ -4,6 +4,7 @@ var GitHubStrategy = require("passport-github").Strategy;
 var User = require("./users.js");
 
 module.exports = function(passport) {
+    
     passport.serializeUser(function(user, done) {
        done(null, user.id); 
     });
@@ -32,12 +33,13 @@ module.exports = function(passport) {
                 
                 newUser.github.id = profile.id;
                 newUser.github.username = profile.username;
-                newUser.github.displayName = profile.displayName
+                newUser.github.displayName = profile.displayName;
+                newUser.github.publicRepos = profile._json.public_repos;
                 newUser.voted = [];
                   
                 newUser.save(function(err) {
                     if (err) { throw err; }
-                    
+                    console.log(newUser);
                     return done(null, newUser);
                 });
               }
