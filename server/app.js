@@ -3,6 +3,7 @@
 var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
+var path = require("path");
 var passport = require("passport");
 var session = require("express-session");
 var Users = require("./users.js");
@@ -25,15 +26,11 @@ app.use(passport.session());
 
 mongoose.connect(process.env.MONGO_URI);
 
-// req.user.voted.indexOf(req.body.poll) === -1
-
 function isLoggedIn (req, res, next) {
     if (req.isAuthenticated()) {
-        console.log("Not logged in");
         return next();
     } else {
-        console.log("Not logged in");
-        res.redirect("/login");
+        return ;
     }
 }
 
@@ -42,7 +39,7 @@ app.route("/api/polls")
         Polls.find({ }, function(err, results) {
             if (err) { throw err; }
             res.json(results);
-        })
+        });
     });
     
 app.route("/api/poll/:id")
@@ -69,36 +66,51 @@ app.route("/api/new")
     });
 
 app.route("/api/vote")
-    .put(isLoggedIn, function(req,res) {
-        Polls.update({ _id : req.body.poll, "options.id": req.body.vote }, { $inc : { "options.$.votes" : 1 } }, function(err, results) {
-            if (err) { throw err; }
-            
-            Users.findOneAndUpdate({ "github.id": req.user.github.id }, { $push: { "voted": req.body.poll } }, function(err, result) {
-                if (err) { throw err; }
-            
-                res.json(req.user);
-            });
+    .put(isLoggedIn, function(req, res) {
+        
+        var vote = true;
+        req.user.voted.forEach(function(element) {
+            if (req.body.poll.toString() === element) {
+                vote = false;
+            }
         });
+        
+        if (vote) {
+            Polls.update({ _id : req.body.poll, "options.id": req.body.vote }, { $inc : { "options.$.votes" : 1 } }, function(err, results) {
+                if (err) { throw err; }
+                
+                Users.findOneAndUpdate({ "github.id": req.user.github.id }, { $push: { "voted": req.body.poll } }, function(err, result) {
+                    if (err) { throw err; }
+                    
+                    res.json(req.user);     
+                });
+            });
+        }
     });
-    
-app.route("/api/user")
-    .get(isLoggedIn, function(req, res) {
-        res.json(req.user.github); 
-    });    
     
 app.route("/auth/github")
     .get(passport.authenticate("github"));
     
 app.route("/auth/github/callback")
     .get(passport.authenticate("github", {
-        successRedirect: "/vote",
-        failureRedirect: "/login"
-    }));
+        successRedirect: "/#/vote",
+        failureRedirect: "/#/login"
+    }));    
+    
+app.route("/api/user")
+    .get(isLoggedIn, function(req, res) {
+        res.json(req.user.github); 
+    });
     
 app.route("/logout")
     .get(function(req, res) {
        req.logout();
-       res.redirect("/login");
+       res.redirect("/#/login");
+    });
+    
+app.route("/*")
+    .get(function(req, res) {
+        res.sendFile(path.resolve(__dirname + "/../client/index.html"));
     });
     
 app.listen(process.env.PORT, function() {

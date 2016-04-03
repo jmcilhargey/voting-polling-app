@@ -1,17 +1,14 @@
 <div class="navbar navbar-default">
-  <a class="navbar-brand" href="#/home"><i class="fa fa-thumbs-o-up fa-lg fa-fw"></i>Voting App</a>
-  <a class='btn btn-default navbar-btn' href='/logout'><i class='fa fa-github fa-lg'></i>&nbsp;Sign Out</a><ul class='nav navbar-nav navbar-right'><li>{{ user.username }}</li><li>{{ user.displayName }}</li></ul>
+  <a class="navbar-brand" href="#/vote"><i class="fa fa-thumbs-o-up fa-lg fa-fw"></i>Voting App</a>
+  <a class="btn btn-default navbar-btn" href="/logout"><i class="fa fa-github fa-lg"></i>&nbsp;Sign Out</a><ul class="nav navbar-nav navbar-right"><li>{{ user.username }}</li><li>{{ user.displayName }}</li></ul>
 </div>
 
 <div class="container">
   <h1>You're signed in and ready to vote!</h1>
   <blockquote>
     <ul>
-      <li>Enter a question and options to vote on</li>
-      <li>Use the Add Option button to add more options</li>
-      <li>Hit Submit to post a question to MongoDB</li>
-      <li>Sign in with Github to vote on each poll</li>
-      <li>Select See Graph to show a d3 bar chart</li>
+      <li>You can vote once per poll</li>
+      <li>Hit Sign Out when you're done</li>
     </ul>        
   </blockquote>
 

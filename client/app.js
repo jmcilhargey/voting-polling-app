@@ -197,14 +197,9 @@
                     templateUrl: "graph.html",
                     controller: "GraphController"
                 })
-                
-                .otherwise({
+            
+                .otherwise({ 
                     redirectTo: "/login"
                 });
-                
-            $locationProvider.html5Mode({
-                enabled: true,
-                requireBase: false
-            });
         }]);
 })();
