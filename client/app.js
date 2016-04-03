@@ -1,9 +1,10 @@
 (function(){
-    "use strict";
     
-    var app = angular.module("votingApp", ["ngRoute"]);
+"use strict";
     
-        app.controller("PollController", ["$scope", "$http", function($scope, $http) {
+angular.module("votingApp", ["ngRoute"])
+    
+        .controller("PollController", ["$scope", "$http", function($scope, $http) {
             
             $scope.getPolls = function() {
                 $http({
@@ -70,9 +71,9 @@
                     console.log(response.status);
                 });
             };
-        }]);
+        }])
         
-        app.directive("tooltip", function() {
+        .directive("tooltip", function() {
            return {
                restrict: "A",
                link: function(scope, element, attrs) {
@@ -84,10 +85,10 @@
                    });
                }
            };
-        });
+        })
         
-        app.controller("GraphController", ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {
-
+        .controller("GraphController", ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {
+            
             $scope.getPoll = function() {
                 $http({
                     method: "GET",
@@ -100,9 +101,9 @@
                 });
             };
             $scope.getPoll();
-        }]);
+        }])
         
-        app.directive("d3Graph", function() {
+        .directive("d3Graph", function() {
             
             return {
                 restrict: "E",
@@ -178,23 +179,23 @@
                     });
                 }
             };
-        });
+        })
         
-        app.config(["$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
+        .config(["$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
             
             $routeProvider
                 .when("/login", {
-                    templateUrl: "login.html",
+                    templateUrl: "views/login.html",
                     controller: "PollController"
                 })
                 
                 .when("/vote", {
-                    templateUrl: "vote.html",
+                    templateUrl: "views/vote.html",
                     controller: "PollController"
                 })
                 
                 .when("/graph/:id", {
-                    templateUrl: "graph.html",
+                    templateUrl: "views/graph.html",
                     controller: "GraphController"
                 })
             

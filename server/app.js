@@ -9,7 +9,6 @@ var session = require("express-session");
 var Users = require("./users.js");
 var Polls = require("./polls.js");
 
-require("dotenv").load();
 require("./passport.js")(passport);
 var app = express();
 
@@ -30,7 +29,7 @@ function isLoggedIn (req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     } else {
-        return ;
+        return false;
     }
 }
 
